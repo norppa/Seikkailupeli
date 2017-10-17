@@ -8,12 +8,35 @@ import java.util.Set;
 public class Seikkailupeli {
 
 
+
     Set<String> komennot;
 
     public Seikkailupeli() {
         komennot = new HashSet<>();
         komennot.add("katso");
         komennot.add("käänny");
+
+        Huone huone = new Huone();
+        huone.asetaKuvaus("Huoneessa on patja ja pöytä. Huoneessa on ovi.");
+
+
+
+        Esine patja = new Esine("patja");
+
+        Esine poyta = new Esine("pöytä");
+        Esine ovi = new Esine("ovi");
+
+        huone.lisaaEsine(patja);
+        huone.lisaaEsine(poyta);
+        huone.lisaaEsine(ovi);
+
+
+        Esine vasara = new Esine("vasara");
+        Esine avain1 = new Esine("avain1");
+        Esine avain2 = new Esine("avain2");
+        Esine rasia = new Esine("rasia");
+
+
     }
 
     public String lueKomento() {
