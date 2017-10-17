@@ -1,19 +1,30 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 17/10/2017.
  */
 public class Tekstit {
-    private String[] tekstit;
+    private ArrayList<String> tekstit;
 
-    public Tekstit() {
-        this.tekstit = new String[4];
-
-        tekstit[0] = "Katsot pohjoiseen. Pohjoisseinällä on ovi.";
-        tekstit[1] = "Huoneen itäosa on tyhjä";
-        tekstit[2] = "Huoneen eteläosassa on pöytä";
-        tekstit[3] = "Huoneen länsiosa on tyhjä";
+    public Tekstit(String filename) {
+        this.tekstit = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String rivi;
+            while ((rivi = reader.readLine()) != null) {
+                tekstit.add(rivi);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String haeTeksti(int indeksi) {
-        return this.tekstit[i];
+        return tekstit.get(indeksi);
     }
 }
