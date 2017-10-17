@@ -9,7 +9,7 @@ public class Seikkailupeli {
     Set<String> komennot;
 
     public Seikkailupeli() {
-        alustaMetodi();
+        alustaSeikkailu();
         tulostaTervetuloa();
     }
 
@@ -19,7 +19,13 @@ public class Seikkailupeli {
         System.out.println("\nMitä teet?");
     }
 
-    public void alustaMetodi() {
+    public void alustaSeikkailu() {
+        //Julistetaan käytettävät komennot
+        komennot = new HashSet<>();
+        komennot.add("katso");
+        komennot.add("nosta");
+        komennot.add("luovuta");
+
         //Luodaan huone, sen kuvaus ja huoneen sisältö.
         huone = new Huone();
         huone.asetaKuvaus("Huoneessa on patja ja pöytä. Huoneessa on ovi.");
@@ -113,37 +119,98 @@ public class Seikkailupeli {
         return null;
     }
 
-    public boolean lueKomento() {
+    public void lueKomento() {
         // Otetaan käyttäjältä komento ja muutetaan se pieniksi kirjaimiksi
         Scanner lukija = new Scanner(System.in);
         String rivi=lukija.nextLine();
         rivi =rivi.toLowerCase();
-        String[] komento = rivi.split("\\s+");
+        String[] riviPaloina = rivi.split("\\s+");
+        String[] komento = new String[3];
+        for (int i = 0; i < komento.length; i++) {
+            if (i<riviPaloina.length) {
+                komento[i] = riviPaloina[i];
+            } else {
+                komento[i] = null;
+            }
+        }
+
+        komento = jarjestaKomento(komento);
+
 
         /* Esineet, joihin pelaaja voi vaikuttaa */
         List<Esine> esineet = pelaaja.getHuone().getEsineet();
         esineet.addAll(pelaaja.getEsineet());
 
-        // Katsotaan sisältääkö käyttäjän teksti jonkun komennon:
-        if(komento[0].contains("katso")){
+        /* parsitaan komennosta toiminta */
+        if (komento[0] == null) {
+            System.out.println("Mitä haluat tehdä?");
+            return;
+        }
+
+        if (komento[0].equals("luovuta")) {
+            System.out.println("Kiitos pelaamisesta!");
+            System.exit(0);
+        }
+
+        /* "katso" toimii ilman argumentteja tai yhdellä argumentilla */
+        if(komento[0].equals("katso")){
+            if (komento.length==1) {
+                System.out.println(pelaaja.getHuone().getKuvaus());
+                return;
+            }
             Esine katsottava = sovita(komento[1], esineet);
             if (katsottava == null) {
                 System.out.println(pelaaja.getHuone().getKuvaus());
             } else {
                 System.out.println(katsottava.haeKuvaus());
             }
-        } else if (komento[0].contains("nosta")) {
-            Esine nostettava = sovita(komento[1], esineet);
-            patja.kayta(kayttoOlio);
+            return;
+        }
 
-        } else if (komento[0].equals("luovuta") && komento[1].equals("peli")) {
-            System.out.println("Kiitos pelaamisesta!");
-            System.exit(0);
+        /* Vain "katso" kelpaa ilman argumentteja */
+        if (komento.length<2) {
+            System.out.println("Epäselvä komento");
+            return;
         }
-        else {
-            System.out.println("En ymmärrä komentoa");
+
+        /* muut toiminnat ovat geneerisiä: lyö - pöytää - vasaralla */
+        Esine valine = sovita(komento[1], esineet);
+        Esine apuvaline = null;
+        if (komento.length ==3) {
+            apuvaline = sovita(komento[2], esineet);
         }
-        return true;
+        Esine paluuarvo = valine.kayta(komento[0], apuvaline);
+        if (paluuarvo == null) {
+            System.out.println("Et voi tehdä niin");
+        } else {
+            System.out.println(valine.getOikeaKayttoTeksti());
+            pelaaja.lisaaEsine(valine);
+        }
+    }
+
+    public boolean onkoApuvaline (String komento) { // onko komennon sana apuobjekti/apuväline
+
+        if (komento.substring(komento.length() - 3).equals("lla")) {
+            return true;
+        } else if (komento.substring(komento.length() - 3).equals("llä")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String[] jarjestaKomento (String[] kayttajanSanat) {
+        String[] uusikomento = new String[3];
+        for (String sana : kayttajanSanat) {
+            if (komennot.contains(sana)) {
+                uusikomento[0] = sana;
+            } else if (onkoApuvaline(sana)) {
+                uusikomento[2] = sana;
+            } else {
+                uusikomento[1] = sana;
+            }
+        }
+        return uusikomento;
     }
 
 }

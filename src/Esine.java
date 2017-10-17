@@ -2,16 +2,24 @@ import java.util.*;
 
 public class Esine { // Jari & Riina
     private String kuvaus;
-    private List<Esine> sisalto;
+    private Esine sisalto;
     private Map<Esine, String> kayttoKuvaukset;
     private String nimi;
     private Set<String> taivutusmuodot;
+    private String oikeaKayttoKomento;
+    private Esine oikeaKayttoEsine;
+    private String oikeaKayttoTeksti, vaaraKayttoTeksti;
+
+    public String getOikeaKayttoTeksti() {
+        return oikeaKayttoTeksti;
+    }
+
 
     public Esine(String nimi) {
         this.nimi = nimi;
         taivutusmuodot = new HashSet<>();
         kayttoKuvaukset = new HashMap<>();
-        sisalto = new ArrayList<>();
+        sisalto = null;
     }
 
     public String getNimi() {
@@ -29,8 +37,11 @@ public class Esine { // Jari & Riina
     public void asetaKatsoKuvaus(String kuvaus) {
         this.kuvaus = kuvaus;
     }
-    public void kayta(String tapa, Esine esine) {
-
+    public Esine kayta(String komento, Esine esine) {
+        if (komento.equals(oikeaKayttoKomento) && esine.equals(oikeaKayttoEsine)) {
+            return sisalto;
+        }
+        return null;
     }
 
     public void asetaKayttoKuvaukset(Map<Esine, String> kayttokuvaukset) {
@@ -38,7 +49,7 @@ public class Esine { // Jari & Riina
     }
 
     public void lisaaSisalto(Esine esine) {
-        sisalto.add(esine);
+        sisalto = esine;
     }
 
     public Set<String> getTaivutusmuodot() {

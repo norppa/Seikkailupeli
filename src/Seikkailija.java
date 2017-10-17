@@ -12,13 +12,8 @@ public class Seikkailija {
         inventaario = new ArrayList<>();
     }
 
-    public void siirry(Huone uusiHuone) {
-        lokaatio = uusiHuone;
-    }
-
     public void setHuone(Huone huone) {
         lokaatio = huone;
-
     }
 
     public Huone getHuone() {
@@ -28,5 +23,10 @@ public class Seikkailija {
     public List<Esine> getEsineet() {
         return inventaario;
     }
+
+    public void lisaaEsine(Esine esine) {
+
+    }
 }
+
 
