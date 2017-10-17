@@ -7,11 +7,8 @@ public class Main {
         String nimi;    // käyttäjän antama nimi?
         Seikkailupeli peli = new Seikkailupeli();
 
-        while (true) { // Peli pyörii, kun komentoja suoritetaan
-            //Set<String> komennot.., Jari lisää?
-            String komento = peli.lueKomento();
-            peli.suorita(komento);
-
+        while (true) {
+            peli.lueKomento();
         }
 
     }

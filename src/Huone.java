@@ -1,18 +1,31 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 17/10/2017.
  */
 public class Huone {
+
     private String kuvaus;
-    List<Esine> huoneenEsineet;
+    private List<Esine> esineet;
+
+    public Huone() {
+        esineet = new ArrayList<>();
+    }
+    public String getKuvaus() {
+        return kuvaus;
+    }
 
     public void lisaaEsine(Esine esine) {
-        huoneenEsineet.add(esine);
+        esineet.add(esine);
     }
 
     public void asetaKuvaus(String kuvaus) {
         this.kuvaus = kuvaus;
+    }
+
+    public List<Esine> getEsineet() {
+        return esineet;
     }
 
 }
