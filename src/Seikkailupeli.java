@@ -9,6 +9,10 @@ public class Seikkailupeli {
     private boolean jatkuuko;
     private Set<String> komennot;
 
+
+    // Null ei kelpaa avaimeksi
+    Esine nul = new Esine();
+
     public Seikkailupeli() {
         alustaSeikkailu();
         jatkuuko = true;
@@ -35,6 +39,7 @@ public class Seikkailupeli {
     }
 
     public void alustaSeikkailu() {
+
 
         // Käytettävissä olevat komennot
         komennot = new HashSet<>();
@@ -67,33 +72,40 @@ public class Seikkailupeli {
         patja.asetaKatsoKuvaus("Kusenkeltainen patja on niin likainen, että sinua hieman puistattaa, kun tajuat nukkuneesi siinä. Näyttää siltä, että patjan alla on jotain.");
         patja.asetaMuodot("patjalla", "patjaa");
         huone.lisaaEsine(patja);
-        patja.setOikeaKayttoKomento("nosta");
-        patja.setOikeaKayttoTeksti("Nostat patjaa ja sen alta paljastuu vasara. Otat vasaran mukaasi.");
+
+//        patja.setOikeaKayttoKomento("nosta");
+        patja.setOikeaKaytto("nosta", nul, "Nostat patjaa ja sen alta paljastuu vasara. Otat vasaran mukaasi.");
 
         //Luodaan pöydän ominaisuudet ja lisätään se huoneeseen
         poyta.asetaKatsoKuvaus("Huoneen ainoa huonekalu on puinen antiikkipöytä. Pöydällä on rasia.");
         poyta.asetaMuodot("pöydällä", "pöytää");
         huone.lisaaEsine(poyta);
-        poyta.setOikeaKayttoEsine(vasara);
-        poyta.setOikeaKayttoKomento("lyö");
-        poyta.setOikeaKayttoTeksti("Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle. Kyykistyt lattialle ja noukit avaimen käteesi.");
+        poyta.setOikeaKaytto("lyö", vasara, "Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle. Kyykistyt lattialle ja noukit avaimen käteesi.");
+//        poyta.setOikeaKayttoEsine(vasara);
+//        poyta.setOikeaKayttoKomento("lyö");
+//        poyta.setOikeaKayttoTeksti("Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle. Kyykistyt lattialle ja noukit avaimen käteesi.");
 
         //Luodaan oven ominaisuudet ja lisätään se huoneeseen
         ovi.asetaMuodot("ovella", "ovea");
         ovi.asetaKatsoKuvaus("Ovi on teräksinen ja erittäin jykevä. Sen murtamista on turha yrittää. Ovi on lukossa, mutta ruosteisessa lukkopesässä on avaimenreikä, josta näkyy himmeästi valaistuun tilaan.");
         huone.lisaaEsine(ovi);
-        ovi.setOikeaKayttoEsine(tiirikka);
-        ovi.setOikeaKayttoKomento("avaa");
-        ovi.setOikeaKayttoTeksti("Muistelet näkemääsi elokuvaa, jossa sankari avaa oven tiirikalla. Tovin sorkittuasi kuulet klikkauksen ja lukko aukeaa!");
+        ovi.setOikeaKaytto("avaa", tiirikka, "Muistelet näkemääsi elokuvaa, jossa sankari avaa oven tiirikalla. Tovin sorkittuasi kuulet klikkauksen ja lukko aukeaa!");
+
+//        ovi.setOikeaKayttoEsine(tiirikka);
+//        ovi.setOikeaKayttoKomento("avaa");
+//        ovi.setOikeaKayttoTeksti("Muistelet näkemääsi elokuvaa, jossa sankari avaa oven tiirikalla. Tovin sorkittuasi kuulet klikkauksen ja lukko aukeaa!");
         ovi.lisaaSisalto(new Esine(""));
 
         //Luodaan rasian ominaisuudet ja lisätään se huoneeseen
         rasia.asetaKatsoKuvaus("Kädessäsi on metallinen rasia, joka on lukittu. Heiluttaessa rasia kolisee... Onkohan sisällä jotain?");
         rasia.asetaMuodot("rasialla", "rasiaa");
         huone.lisaaEsine(rasia);
-        rasia.setOikeaKayttoEsine(avain);
-        rasia.setOikeaKayttoKomento("avaa");
-        rasia.setOikeaKayttoTeksti("Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka? Nappaat tiirikan mukaasi.");
+        rasia.setOikeaKaytto("avaa", avain, "Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka? Nappaat tiirikan mukaasi.");
+
+//        rasia.setOikeaKayttoEsine(avain);
+//        rasia.setOikeaKayttoKomento("avaa");
+//        rasia.setOikeaKayttoTeksti("Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka? Nappaat tiirikan mukaasi.");
+
         //Lisätään esineissä olevat toiset esineet
         vasara.asetaMuodot("vasaralla", "vasaraa");
         vasara.asetaKatsoKuvaus("Vasara on vanha ja siinä on hieman ruostetta. Puinen varsi tuntuu kuitenkin tarpeeksi vahvalta, jotta vasaraa voi käyttää.");
@@ -117,7 +129,7 @@ public class Seikkailupeli {
                 return e;
             }
         }
-        return null;
+        return nul;
     }
 
     public void lueKomento() {
@@ -153,7 +165,7 @@ public class Seikkailupeli {
 
         if (komento.length == 3) {
             for (int i = 1; i < 3; i++) {
-                if (sovita(komento[i], esineet) == null) {
+                if (sovita(komento[i], esineet) == nul) {
                     System.out.println("Mikä on " + komento[i]);
                     return;
                 }
@@ -162,7 +174,7 @@ public class Seikkailupeli {
         }
 
         if (komento.length == 2) {
-            if (sovita(komento[1], esineet) == null) {
+            if (sovita(komento[1], esineet) == nul) {
                 System.out.println("Mikä on " + komento[1]);
                 return;
             }
@@ -199,19 +211,19 @@ public class Seikkailupeli {
         if (komento.length == 2) {
             if (komento[0].equals("katso")) {
                 Esine katsottava = sovita(komento[1], esineet);
-                if (katsottava == null) {
+                if (katsottava == nul) {
                     System.out.println(pelaaja.getHuone().getKuvaus());
                 } else {
                     System.out.println(katsottava.haeKuvaus());
                 }
             } else {
                 Esine valine = sovita(komento[1], esineet);
-                Esine paluuarvo = valine.kayta(komento[0], null);
-                if (paluuarvo == null) {
+                Esine paluuarvo = valine.kayta(komento[0], nul);
+                if (paluuarvo == nul) {
                     System.out.println("DEBUG: return null");
                     System.out.println("Et voi tehdä niin. Kokeile tehdä jotakin muuta.");
                 } else {
-                    System.out.println(valine.getOikeaKayttoTeksti());
+                    System.out.println(valine.getViimeisinKayttoTeksti() + "\n" + paluuarvo);
                     pelaaja.lisaaEsine(paluuarvo);
                 }
             }
@@ -222,10 +234,10 @@ public class Seikkailupeli {
             Esine valine = sovita(komento[1], esineet);
             Esine apuValine = sovita(komento[2], esineet);
             Esine paluuarvo = valine.kayta(komento[0], apuValine);
-            if (paluuarvo == null) {
+            if (paluuarvo == nul) {
                 System.out.println("Et voi tehdä niin. Kokeile tehdä jotakin muuta.");
             } else {
-                System.out.println(valine.getOikeaKayttoTeksti());
+                System.out.println(valine.getViimeisinKayttoTeksti());
                 pelaaja.lisaaEsine(paluuarvo);
             }
             return;

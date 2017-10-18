@@ -2,7 +2,7 @@ import java.util.*;
 public class Esine {
     protected String kuvaus;
     protected Esine sisalto;
-    protected Map<Esine, String> kayttoKuvaukset;
+    // depricated protected Map<Esine, String> kayttoKuvaukset;
     protected List<String> muodot;
     protected String oikeaKayttoKomento;
     protected Esine oikeaKayttoEsine;
@@ -11,18 +11,22 @@ public class Esine {
     protected String viimeisinKayttoTeksti;
     protected String oletusKayttoTeksti = "Et voi käyttää tätä esinettä noin";
 
+    public Esine() {
+        this("");
+    }
+
 
     public Esine(String nimi) {
         muodot = new ArrayList<String>();
         muodot.add(nimi);
-        kayttoKuvaukset = new HashMap<>();
+        // depricated kayttoKuvaukset = new HashMap<>();
         sisalto = null;
         kayttoTekstit = new HashMap<>();
     }
 
-    public void asetaKayttoKuvaus(String komento, Esine esine, String kayttoKuvaus) {
+    private void asetaKayttoKuvaus(String komento, Esine esine, String kayttoKuvaus) {
         if (!kayttoTekstit.containsKey(komento)) {
-            kayttoTekstit.put("komento", new HashMap<Esine, String>());
+            kayttoTekstit.put(komento, new HashMap<>());
         }
         kayttoTekstit.get(komento).put(esine, kayttoKuvaus);
     }
@@ -35,43 +39,47 @@ public class Esine {
         this.kuvaus = kuvaus;
     }
 
-    public Esine kayta(String komento, Esine esine) {
-        System.out.println("DEBUG:\n\"Tämä esine: " + this + " komento: " + komento +  " käyttöesine: " + esine +
-                "\n oikea komento: " + oikeaKayttoKomento + " oikea käyttöesine: " + oikeaKayttoEsine);
+    /**
+     * Kun Esinettä käytetään, esineen muuttujaan 'viimeisinKayttoTeksti' tallennetaan
+     * kuvaus siitä, mitä tapahtuu kun Esinettä käytetään Komennolla komento ja
+     * Esineellä esine.
+     * @param komento komento, jolla Esinettä käytetään
+     * @param esine esine, jolla Esinettä käytetään
+     */
+    private void asetaViimeisinKayttoTeksti(String komento, Esine esine) {
         if (kayttoTekstit.containsKey(komento) && kayttoTekstit.get(komento).containsKey(esine)) {
             viimeisinKayttoTeksti = kayttoTekstit.get(komento).get(esine);
         } else {
             viimeisinKayttoTeksti = oletusKayttoTeksti;
         }
 
-        if (esine == null) {
-            if (oikeaKayttoEsine == null && komento.equals(oikeaKayttoKomento)) {
-                System.out.println("palautetaan sisalto");
-                return sisalto;
-            }
-        } else if (komento.equals(oikeaKayttoKomento) && esine.equals(oikeaKayttoEsine)) {
+    }
+
+    public Esine kayta(String komento, Esine esine) {
+        asetaViimeisinKayttoTeksti(komento, esine);
+        if (esine.equals(oikeaKayttoEsine) && komento.equals(oikeaKayttoKomento)) {
             return sisalto;
         }
-        System.out.println("palautetaan null");
-        return null;
+        return new Esine();
     }
 
     public void lisaaSisalto(Esine esine) {
         sisalto = esine;
     }
 
-    public void setOikeaKayttoKomento(String oikeaKayttoKomento) {
+    public void setOikeaKaytto(String oikeaKayttoKomento, Esine oikeaKayttoEsine, String oikeaKayttoTeksti) {
         this.oikeaKayttoKomento = oikeaKayttoKomento;
-    }
-    public void setOikeaKayttoEsine(Esine oikeaKayttoEsine) {
         this.oikeaKayttoEsine = oikeaKayttoEsine;
+        asetaKayttoKuvaus(oikeaKayttoKomento, oikeaKayttoEsine, oikeaKayttoTeksti);
+
     }
-    public void setOikeaKayttoTeksti(String oikeaKayttoTeksti) {
-        this.oikeaKayttoTeksti = oikeaKayttoTeksti;
+
+    public String getViimeisinKayttoTeksti() {
+        return viimeisinKayttoTeksti;
     }
-    public String getOikeaKayttoTeksti() {
-        return oikeaKayttoTeksti;
-    }
+//    public String getOikeaKayttoTeksti() {
+//        return oikeaKayttoTeksti;
+//    }
 
     // muoto1=patjalla, muoto2=patjaa
     public void asetaMuodot(String muoto1, String muoto2){
@@ -85,5 +93,9 @@ public class Esine {
 
     public String toString() {
         return this.muodot.get(0);
+    }
+
+    public boolean equals(Esine e) {
+        return this.muodot.get(0).equals(e.getMuodot().get(0));
     }
 }
