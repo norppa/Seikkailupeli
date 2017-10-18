@@ -7,7 +7,7 @@ public class Seikkailupeli {
     Huone huone;
     Seikkailija pelaaja;
     private boolean jatkuuko;
-//    Set<String> komennot;
+    private Set<String> komennot;
 
     public Seikkailupeli() {
         alustaSeikkailu();
@@ -36,16 +36,16 @@ public class Seikkailupeli {
 
     public void alustaSeikkailu() {
 
-        //Julistetaan käytettävät komennot
-//        komennot = new HashSet<>();
-//        komennot.add("katso");
-//        komennot.add("nosta");
-//        komennot.add("luovuta");
+        // Käytettävissä olevat komennot
+        komennot = new HashSet<>();
+        komennot.add("katso");
+        komennot.add("avaa");
+        komennot.add("lyö");
+        komennot.add("nosta");
 
         //Luodaan huone, sen kuvaus ja huoneen sisältö.
         huone = new Huone();
         huone.asetaKuvaus("Huoneessa on patja ja pöytä. Huoneessa on ovi.");
-
 
 
         //Luodaan pelaaja ja asetetaan hänet huoneeseen.
@@ -65,7 +65,7 @@ public class Seikkailupeli {
 
         //Luodaan patjan ominaisuudet ja lisätään se huoneeseen
         patja.asetaKatsoKuvaus("Kusenkeltainen patja on niin likainen, että sinua hieman puistattaa, kun tajuat nukkuneesi siinä. Näyttää siltä, että patjan alla on jotain.");
-        patja.asetaMuodot("patjalla","patjaa");
+        patja.asetaMuodot("patjalla", "patjaa");
         huone.lisaaEsine(patja);
         patja.setOikeaKayttoKomento("nosta");
         patja.setOikeaKayttoTeksti("Nostat patjaa ja sen alta paljastuu vasara");
@@ -79,7 +79,7 @@ public class Seikkailupeli {
         poyta.setOikeaKayttoTeksti("Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle");
 
         //Luodaan oven ominaisuudet ja lisätään se huoneeseen
-        ovi.asetaMuodot("ovella","ovea");
+        ovi.asetaMuodot("ovella", "ovea");
         ovi.asetaKatsoKuvaus("Ovi on teräksinen ja erittäin jykevä. Sen murtamista on turha yrittää. Ovi on lukossa, mutta ruosteisessa lukkopesässä on avaimenreikä, josta näkyy himmeästi valaistuun tilaan.");
         huone.lisaaEsine(ovi);
         ovi.setOikeaKayttoEsine(tiirikka);
@@ -89,17 +89,17 @@ public class Seikkailupeli {
 
         //Luodaan rasian ominaisuudet ja lisätään se huoneeseen
         rasia.asetaKatsoKuvaus("Kädessäsi on metallinen rasia, joka on lukittu. Heiluttaessa rasia kolisee...");
-        rasia.asetaMuodot("rasialla","rasiaa");
+        rasia.asetaMuodot("rasialla", "rasiaa");
         huone.lisaaEsine(rasia);
         rasia.setOikeaKayttoEsine(avain);
         rasia.setOikeaKayttoKomento("avaa");
         rasia.setOikeaKayttoTeksti("Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka?");
         //Lisätään esineissä olevat toiset esineet
-        vasara.asetaMuodot("vasaralla","vasaraa");
+        vasara.asetaMuodot("vasaralla", "vasaraa");
         vasara.asetaKatsoKuvaus("Vasara on vanha ja siinä on hieman ruostetta. Puinen varsi tuntuu kuitenkin tarpeeksi vahvalta, jotta vasaraa voi käyttää.");
-        avain.asetaMuodot("avaimella","avainta");
+        avain.asetaMuodot("avaimella", "avainta");
         avain.asetaKatsoKuvaus("Avain on metallinen ja muihin huoneen esineisiin verrattuna uuden näköinen.");
-        tiirikka.asetaMuodot("tiirikalla","tiirikkaa");
+        tiirikka.asetaMuodot("tiirikalla", "tiirikkaa");
         tiirikka.asetaKatsoKuvaus("Tämä taitaa olla tiirikka. Mitenhän tätä käytetään..?");
         //Lisätään patjan sisältö
         patja.lisaaSisalto(vasara);
@@ -121,40 +121,68 @@ public class Seikkailupeli {
     }
 
     public void lueKomento() {
-        // Otetaan käyttäjältä komento ja muutetaan se pieniksi kirjaimiksi
-        Scanner lukija = new Scanner(System.in);
-        String rivi=lukija.nextLine();
-        rivi =rivi.toLowerCase();
-        String[] komento = rivi.split("\\s+");
-//        for (int i = 0; i < komento.length; i++) {
-//            if (i<riviPaloina.length) {
-//                komento[i] = riviPaloina[i];
-//            } else {
-//                komento[i] = null;
-//            }
-//        }
-
-        //komento = jarjestaKomento(komento);
-
 
         /* Esineet, joihin pelaaja voi vaikuttaa */
         List<Esine> esineet = pelaaja.getHuone().getEsineet();
         esineet.addAll(pelaaja.getEsineet());
+
+        // Otetaan käyttäjältä komento ja muutetaan se pieniksi kirjaimiksi
+        Scanner lukija = new Scanner(System.in);
+        String rivi = lukija.nextLine();
+        rivi = rivi.toLowerCase();
+        String[] komento = rivi.split("\\s+");
+
+        if (komento.length == 0) {
+            System.out.println("Mitä haluat tehdä?");
+            return;
+        }
+
+        if (!komennot.contains(komento[0])) {
+            System.out.println("\'" + komento[0] + "\' ei ole validi komento. Komennot:");
+            for (String s : komennot) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
+            return;
+        }
+
+        if (komento.length > 3) {
+            System.out.println("En ole niin fiksu että ymmärtäisin noin pitkiä komentoja.");
+            return;
+        }
+
+        if (komento.length == 3) {
+            for (int i = 1; i < 3; i++) {
+                if (sovita(komento[i], esineet) == null) {
+                    System.out.println("Mikä on " + komento[i]);
+                    return;
+                }
+            }
+            komento = jarjestaKomento(komento);
+        }
+
+        if (komento.length == 2) {
+            if (sovita(komento[1], esineet) == null) {
+                System.out.println("Mikä on " + komento[1]);
+                return;
+            }
+        }
+
+
+
+
 
         /* parsitaan komennosta toiminta. Komento on 1-3 sanaa.
          * Ensimmäinen on käskysana, toinen on kohde-esine, kolmas apuesine
           * esim. "nosta patjaa kepillä" */
 
         /* jos komento on tyhjä, pelaaja ei ole antanut komentoa */
-        if (komento.length==0) {
-            System.out.println("Mitä haluat tehdä?");
-            return;
-        }
+
 
         /* jos komennon pituus on 1, hyväksyttyjä komentoja on
         "luovuta" ja "katso"  */
 
-        if (komento.length==1) {
+        if (komento.length == 1) {
             if (komento[0].equals("luovuta")) {
                 System.out.println("Elämänhalusi valuu lattialle, et jaksa enempää. Jäät lattialle makaamaan, kunnes seuraava seikkalija löytää mätänevän ruumiisi...");
                 System.exit(0);
@@ -193,7 +221,7 @@ public class Seikkailupeli {
             return;
         }
 
-        if (komento.length== 3) {
+        if (komento.length == 3) {
             Esine valine = sovita(komento[1], esineet);
             Esine apuValine = sovita(komento[2], esineet);
             Esine paluuarvo = valine.kayta(komento[0], apuValine);
@@ -206,30 +234,28 @@ public class Seikkailupeli {
             return;
         }
     }
+    public boolean onkoApuvaline (String komento) { // onko komennon sana apuobjekti/apuväline
 
-//    public boolean onkoApuvaline (String komento) { // onko komennon sana apuobjekti/apuväline
-//
-//        if (komento.substring(komento.length() - 3).equals("lla")) {
-//            return true;
-//        } else if (komento.substring(komento.length() - 3).equals("llä")) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    public String[] jarjestaKomento (String[] kayttajanSanat) {
-//        String[] uusikomento = new String[3];
-//        for (String sana : kayttajanSanat) {
-//            if (komennot.contains(sana)) {
-//                uusikomento[0] = sana;
-//            } else if (onkoApuvaline(sana)) {
-//                uusikomento[2] = sana;
-//            } else {
-//                uusikomento[1] = sana;
-//            }
-//        }
-//        return uusikomento;
-//    }
+        if (komento.substring(komento.length() - 3).equals("lla")) {
+            return true;
+        } else if (komento.substring(komento.length() - 3).equals("llä")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public String[] jarjestaKomento (String[] kayttajanSanat) {
+        String[] uusikomento = new String[3];
+        for (String sana : kayttajanSanat) {
+            if (komennot.contains(sana)) {
+                uusikomento[0] = sana;
+            } else if (onkoApuvaline(sana)) {
+                uusikomento[2] = sana;
+            } else {
+                uusikomento[1] = sana;
+            }
+        }
+        return uusikomento;
+    }
 }
