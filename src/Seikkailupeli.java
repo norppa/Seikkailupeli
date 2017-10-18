@@ -6,113 +6,114 @@ import java.util.*;
 public class Seikkailupeli {
     Huone huone;
     Seikkailija pelaaja;
-    Set<String> komennot;
+    private boolean jatkuuko;
+//    Set<String> komennot;
 
     public Seikkailupeli() {
         alustaSeikkailu();
-        tulostaTervetuloa();
+        jatkuuko = true;
+    }
+
+    public void lopetaPeli() {
+        jatkuuko = false;
+    }
+
+    public boolean jatkuuko() {
+        return jatkuuko;
     }
 
     public void tulostaTervetuloa() {
-        String nimi = "Seikkailija";
-        System.out.println("Hei " + nimi + "! Peli alkaa. Heräät pimeästä huoneesta, josta sinun on päästävä ulos, jotta peli loppuu. \nVoit katsoa ympärillesi, ottaa esineitä käteesi ja tehdä niillä asioita. Loput sinun on selvitettävä itse. Onnea peliin!");
+        Scanner lukija = new Scanner(System.in);
+        System.out.print("Tervetuloa seikkailupeliin! Kerro nimesi: ");
+        String nimi = lukija.nextLine();
+        System.out.println("Hei " + nimi + "! Aloitetaan seikkailu! Heräät pimeästä huoneesta, josta sinun on päästävä ulos, jotta peli loppuu. \nVoit katsoa ympärillesi, ottaa esineitä käteesi ja tehdä niillä asioita. Loput sinun on selvitettävä itse. Onnea peliin!");
         System.out.println("\nMitä teet?");
     }
 
+    public void tulostaLopetus() {
+        System.out.println("Ovi aukeaa ja raitis ulkoilma virtaa kasvoillesi. Onnen kyyneleet valuvat poskiasi pitkin, kun tajuat, että kurjan elämäsi viimeiset hetket eivät olleet tunkkaisessa pakohuoneessa.");
+    }
+
     public void alustaSeikkailu() {
+
         //Julistetaan käytettävät komennot
-        komennot = new HashSet<>();
-        komennot.add("katso");
-        komennot.add("nosta");
-        komennot.add("luovuta");
+//        komennot = new HashSet<>();
+//        komennot.add("katso");
+//        komennot.add("nosta");
+//        komennot.add("luovuta");
 
         //Luodaan huone, sen kuvaus ja huoneen sisältö.
         huone = new Huone();
         huone.asetaKuvaus("Huoneessa on patja ja pöytä. Huoneessa on ovi.");
 
+
+
         //Luodaan pelaaja ja asetetaan hänet huoneeseen.
         pelaaja = new Seikkailija();
         pelaaja.setHuone(huone);
 
-        //Luodaan esineet huoneeseen
+        //luodaan huoneen 1 esineet:
         Esine patja = new Esine("patja");
-        patja.asetaKatsoKuvaus("Kusenkeltainen patja on niin likainen, että sinua hieman puistattaa, kun tajuat nukkuneesi siinä. Näyttää siltä, että patjan alla on jotain.");
-        patja.lisaaTaivutusmuodot("patja", "patjaa");
         Esine poyta = new Esine("pöytä");
-        poyta.asetaKatsoKuvaus("Huoneen ainoa huonekalu on puinen antiikkipöytä. Pöydällä on rasia.");
-        poyta.lisaaTaivutusmuodot("pöytä", "pöytää");
-        Esine ovi = new Esine("ovi");
-        ovi.lisaaTaivutusmuodot("ovi", "ovea");
-        ovi.asetaKatsoKuvaus("Ovi on teräksinen ja erittäin jykevä. Sen murtamista on turha yrittää. Ovi on lukossa, mutta ruosteisessa lukkopesässä on avaimenreikä, josta näkyy himmeästi valaistuun tilaan.");
-        Esine rasia = new Esine("rasia");
-        rasia.asetaKatsoKuvaus("Kädessäsi on metallinen rasia, joka on lukittu. Heiluttaessa rasia kolisee...");
-        rasia.lisaaTaivutusmuodot("rasia", "rasiaa");
+        Esine ovi = new LopetusEsine("ovi", this);
 
-        // Lisätään huoneeseen esineet
-        huone.lisaaEsine(patja);
-        huone.lisaaEsine(poyta);
-        huone.lisaaEsine(rasia);
-        huone.lisaaEsine(ovi);
-
-
-        //Lisätään esineissä olevat toiset esineet
+        //luodaan huoneen 1 käyttöesineet
         Esine vasara = new Esine("vasara");
-        vasara.lisaaTaivutusmuodot("vasara", "vasaraa");
-        vasara.asetaKatsoKuvaus("Vasara on vanha ja siinä on hieman ruostetta. Puinen varsi tuntuu kuitenkin tarpeeksi vahvalta, jotta vasaraa voi käyttää.");
         Esine avain = new Esine("avain");
-        avain.lisaaTaivutusmuodot("avain", "avainta");
-        avain.asetaKatsoKuvaus("Avain on metallinen ja muihin huoneen esineisiin verrattuna uuden näköinen.");
         Esine tiirikka = new Esine("tiirikka");
-        tiirikka.lisaaTaivutusmuodot("tiirikka", "tiirikkaa");
-        tiirikka.asetaKatsoKuvaus("Tämä taitaa olla tiirikka. Mitenhän tätä käytetään..?");
+        Esine rasia = new Esine("rasia");
 
+        //Luodaan patjan ominaisuudet ja lisätään se huoneeseen
+        patja.asetaKatsoKuvaus("Kusenkeltainen patja on niin likainen, että sinua hieman puistattaa, kun tajuat nukkuneesi siinä. Näyttää siltä, että patjan alla on jotain.");
+        patja.asetaMuodot("patjalla","patjaa");
+        huone.lisaaEsine(patja);
+        patja.setOikeaKayttoKomento("nosta");
+        patja.setOikeaKayttoTeksti("Nostat patjaa ja sen alta paljastuu vasara");
+
+        //Luodaan pöydän ominaisuudet ja lisätään se huoneeseen
+        poyta.asetaKatsoKuvaus("Huoneen ainoa huonekalu on puinen antiikkipöytä. Pöydällä on rasia.");
+        poyta.asetaMuodot("pöydällä", "pöytää");
+        huone.lisaaEsine(poyta);
+        poyta.setOikeaKayttoEsine(vasara);
+        poyta.setOikeaKayttoKomento("lyö");
+        poyta.setOikeaKayttoTeksti("Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle");
+
+        //Luodaan oven ominaisuudet ja lisätään se huoneeseen
+        ovi.asetaMuodot("ovella","ovea");
+        ovi.asetaKatsoKuvaus("Ovi on teräksinen ja erittäin jykevä. Sen murtamista on turha yrittää. Ovi on lukossa, mutta ruosteisessa lukkopesässä on avaimenreikä, josta näkyy himmeästi valaistuun tilaan.");
+        huone.lisaaEsine(ovi);
+        ovi.setOikeaKayttoEsine(tiirikka);
+        ovi.setOikeaKayttoKomento("avaa");
+        ovi.setOikeaKayttoTeksti("Muistelet näkemääsi elokuvaa, jossa sankari avaa oven tiirikalla. Tovin sorkittuasi kuulet klikkauksen ja lukko aukeaa!");
+        ovi.lisaaSisalto(new Esine(""));
+
+        //Luodaan rasian ominaisuudet ja lisätään se huoneeseen
+        rasia.asetaKatsoKuvaus("Kädessäsi on metallinen rasia, joka on lukittu. Heiluttaessa rasia kolisee...");
+        rasia.asetaMuodot("rasialla","rasiaa");
+        huone.lisaaEsine(rasia);
+        rasia.setOikeaKayttoEsine(avain);
+        rasia.setOikeaKayttoKomento("avaa");
+        rasia.setOikeaKayttoTeksti("Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka?");
+        //Lisätään esineissä olevat toiset esineet
+        vasara.asetaMuodot("vasaralla","vasaraa");
+        vasara.asetaKatsoKuvaus("Vasara on vanha ja siinä on hieman ruostetta. Puinen varsi tuntuu kuitenkin tarpeeksi vahvalta, jotta vasaraa voi käyttää.");
+        avain.asetaMuodot("avaimella","avainta");
+        avain.asetaKatsoKuvaus("Avain on metallinen ja muihin huoneen esineisiin verrattuna uuden näköinen.");
+        tiirikka.asetaMuodot("tiirikalla","tiirikkaa");
+        tiirikka.asetaKatsoKuvaus("Tämä taitaa olla tiirikka. Mitenhän tätä käytetään..?");
         //Lisätään patjan sisältö
         patja.lisaaSisalto(vasara);
-
         //Lisätään pöydän sisältö
         poyta.lisaaSisalto(avain);
-
         //Lisätään rasian sisältö
         rasia.lisaaSisalto(tiirikka);
 
-        //Asetetaan huoneessa olevien esineiden kuvaukset
 
-        Map<Esine, String> patjanKayttoKuvaukset = new HashMap<>();
-        patjanKayttoKuvaukset.put(patja, "Et voi käyttää patjaa patjaan.");
-        patjanKayttoKuvaukset.put(avain, "Yrität avata patjan avaimella, mutta et löydä avaimenreikää.");
-        patjanKayttoKuvaukset.put(tiirikka, "Yrität avata patjan tiirikalla, mutta et löydä avaimenreikää.");
-        patjanKayttoKuvaukset.put(vasara, "Turhaan hakkaat patjaa vasaralla, se ei hyödytä sinua mitenkään.");
-        patjanKayttoKuvaukset.put(poyta, "Pöytä on liian painava, et jaksa nostaa sitä.");
-        patja.asetaKayttoKuvaukset(patjanKayttoKuvaukset);
-
-        Map<Esine, String> poydanKayttoKuvaukset = new HashMap<>();
-        poydanKayttoKuvaukset.put(patja, "Tyhmä idea, kokeile jotain muuta.");
-        poydanKayttoKuvaukset.put(avain, "Yrität avata pöydän avaimella, mutta et löydä avaimenreikää.");
-        poydanKayttoKuvaukset.put(tiirikka, "Yrität avata pöydän tiirikalla, mutta et löydä avaimenreikää.");
-        poydanKayttoKuvaukset.put(vasara, "Löit pöytää vasaralla, ja sait pienen avaimen käyttöösi.");
-        poydanKayttoKuvaukset.put(poyta, "Et voi käyttää pöytää pöytään.");
-        poyta.asetaKayttoKuvaukset(poydanKayttoKuvaukset);
-
-        Map<Esine, String> rasianKayttoKuvaukset = new HashMap<>();
-        rasianKayttoKuvaukset.put(patja, "Tyhmä idea, kokeile jotain muuta.");
-        rasianKayttoKuvaukset.put(avain, "Rasia aukesi. Löysit sisältä toisen avaimen.");
-        rasianKayttoKuvaukset.put(tiirikka, "Rasia on jo auki.");
-        rasianKayttoKuvaukset.put(vasara, "Mitään ei tapahdu.");
-        rasianKayttoKuvaukset.put(poyta, "Pöytä on liian painava, et jaksa nostaa sitä.");
-        rasia.asetaKayttoKuvaukset(rasianKayttoKuvaukset);
-
-        Map<Esine, String> ovenKayttoKuvaukset = new HashMap<>();
-        ovenKayttoKuvaukset.put(patja, "Tyhmä idea, kokeile jotain muuta.");
-        ovenKayttoKuvaukset.put(avain, "Avain ei sovi lukkoon. Kokeile avainta toiseen paikkaan.");
-        ovenKayttoKuvaukset.put(tiirikka, "Oven lukko raksahtaa auki.");
-        ovenKayttoKuvaukset.put(vasara, "Mitään ei tapahdu.");
-        ovenKayttoKuvaukset.put(poyta, "Pöytä on liian painava, et jaksa nostaa sitä.");
-        ovi.asetaKayttoKuvaukset(ovenKayttoKuvaukset);
     }
 
     private Esine sovita(String esineString, List<Esine> esineLista) {
         for (Esine e : esineLista) {
-            if (e.getTaivutusmuodot().contains(esineString)) {
+            if (e.getMuodot().contains(esineString)) {
                 return e;
             }
         }
@@ -124,93 +125,111 @@ public class Seikkailupeli {
         Scanner lukija = new Scanner(System.in);
         String rivi=lukija.nextLine();
         rivi =rivi.toLowerCase();
-        String[] riviPaloina = rivi.split("\\s+");
-        String[] komento = new String[3];
-        for (int i = 0; i < komento.length; i++) {
-            if (i<riviPaloina.length) {
-                komento[i] = riviPaloina[i];
-            } else {
-                komento[i] = null;
-            }
-        }
+        String[] komento = rivi.split("\\s+");
+//        for (int i = 0; i < komento.length; i++) {
+//            if (i<riviPaloina.length) {
+//                komento[i] = riviPaloina[i];
+//            } else {
+//                komento[i] = null;
+//            }
+//        }
 
-        komento = jarjestaKomento(komento);
+        //komento = jarjestaKomento(komento);
 
 
         /* Esineet, joihin pelaaja voi vaikuttaa */
         List<Esine> esineet = pelaaja.getHuone().getEsineet();
         esineet.addAll(pelaaja.getEsineet());
 
-        /* parsitaan komennosta toiminta */
-        if (komento[0] == null) {
+        /* parsitaan komennosta toiminta. Komento on 1-3 sanaa.
+         * Ensimmäinen on käskysana, toinen on kohde-esine, kolmas apuesine
+          * esim. "nosta patjaa kepillä" */
+
+        /* jos komento on tyhjä, pelaaja ei ole antanut komentoa */
+        if (komento.length==0) {
             System.out.println("Mitä haluat tehdä?");
             return;
         }
 
-        if (komento[0].equals("luovuta")) {
-            System.out.println("Kiitos pelaamisesta!");
-            System.exit(0);
-        }
+        /* jos komennon pituus on 1, hyväksyttyjä komentoja on
+        "luovuta" ja "katso"  */
 
-        /* "katso" toimii ilman argumentteja tai yhdellä argumentilla */
-        if(komento[0].equals("katso")){
-            if (komento.length==1) {
+        if (komento.length==1) {
+            if (komento[0].equals("luovuta")) {
+                System.out.println("Elämänhalusi valuu lattialle, et jaksa enempää. Jäät lattialle makaamaan, kunnes seuraava seikkalija löytää mätänevän ruumiisi...");
+                System.exit(0);
+            }
+            if (komento[0].equals("katso")) {
                 System.out.println(pelaaja.getHuone().getKuvaus());
                 return;
             }
-            Esine katsottava = sovita(komento[1], esineet);
-            if (katsottava == null) {
-                System.out.println(pelaaja.getHuone().getKuvaus());
+
+            System.out.println("En ymmärrä komentoa");
+        }
+
+        /* jos komennon pituus on 2, komento voi olla "katso" tai
+        jokin käyttökomento.
+         */
+
+        if (komento.length == 2) {
+            if (komento[0].equals("katso")) {
+                Esine katsottava = sovita(komento[1], esineet);
+                if (katsottava == null) {
+                    System.out.println(pelaaja.getHuone().getKuvaus());
+                } else {
+                    System.out.println(katsottava.haeKuvaus());
+                }
             } else {
-                System.out.println(katsottava.haeKuvaus());
+                Esine valine = sovita(komento[1], esineet);
+                Esine paluuarvo = valine.kayta(komento[0], null);
+                if (paluuarvo == null) {
+                    System.out.println("DEBUG: return null");
+                    System.out.println("Et voi tehdä niin");
+                } else {
+                    System.out.println(valine.getOikeaKayttoTeksti());
+                    pelaaja.lisaaEsine(paluuarvo);
+                }
             }
             return;
         }
 
-        /* Vain "katso" kelpaa ilman argumentteja */
-        if (komento.length<2) {
-            System.out.println("Epäselvä komento");
+        if (komento.length== 3) {
+            Esine valine = sovita(komento[1], esineet);
+            Esine apuValine = sovita(komento[2], esineet);
+            Esine paluuarvo = valine.kayta(komento[0], apuValine);
+            if (paluuarvo == null) {
+                System.out.println("Et voi tehdä niin");
+            } else {
+                System.out.println(valine.getOikeaKayttoTeksti());
+                pelaaja.lisaaEsine(paluuarvo);
+            }
             return;
         }
-
-        /* muut toiminnat ovat geneerisiä: lyö - pöytää - vasaralla */
-        Esine valine = sovita(komento[1], esineet);
-        Esine apuvaline = null;
-        if (komento.length ==3) {
-            apuvaline = sovita(komento[2], esineet);
-        }
-        Esine paluuarvo = valine.kayta(komento[0], apuvaline);
-        if (paluuarvo == null) {
-            System.out.println("Et voi tehdä niin");
-        } else {
-            System.out.println(valine.getOikeaKayttoTeksti());
-            pelaaja.lisaaEsine(valine);
-        }
     }
 
-    public boolean onkoApuvaline (String komento) { // onko komennon sana apuobjekti/apuväline
-
-        if (komento.substring(komento.length() - 3).equals("lla")) {
-            return true;
-        } else if (komento.substring(komento.length() - 3).equals("llä")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public String[] jarjestaKomento (String[] kayttajanSanat) {
-        String[] uusikomento = new String[3];
-        for (String sana : kayttajanSanat) {
-            if (komennot.contains(sana)) {
-                uusikomento[0] = sana;
-            } else if (onkoApuvaline(sana)) {
-                uusikomento[2] = sana;
-            } else {
-                uusikomento[1] = sana;
-            }
-        }
-        return uusikomento;
-    }
+//    public boolean onkoApuvaline (String komento) { // onko komennon sana apuobjekti/apuväline
+//
+//        if (komento.substring(komento.length() - 3).equals("lla")) {
+//            return true;
+//        } else if (komento.substring(komento.length() - 3).equals("llä")) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//
+//    public String[] jarjestaKomento (String[] kayttajanSanat) {
+//        String[] uusikomento = new String[3];
+//        for (String sana : kayttajanSanat) {
+//            if (komennot.contains(sana)) {
+//                uusikomento[0] = sana;
+//            } else if (onkoApuvaline(sana)) {
+//                uusikomento[2] = sana;
+//            } else {
+//                uusikomento[1] = sana;
+//            }
+//        }
+//        return uusikomento;
+//    }
 
 }

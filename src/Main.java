@@ -7,9 +7,11 @@ public class Main {
         String nimi;    // käyttäjän antama nimi?
         Seikkailupeli peli = new Seikkailupeli();
 
-        while (true) {
+        peli.tulostaTervetuloa();
+        while (peli.jatkuuko()) {
             peli.lueKomento();
         }
+        peli.tulostaLopetus();
 
     }
 }
