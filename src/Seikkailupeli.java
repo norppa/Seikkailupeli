@@ -26,8 +26,8 @@ public class Seikkailupeli {
         Scanner lukija = new Scanner(System.in);
         System.out.print("Tervetuloa seikkailupeliin! Kerro nimesi: ");
         String nimi = lukija.nextLine();
-        System.out.println("Hei " + nimi + "! Aloitetaan seikkailu! Heräät pimeästä huoneesta, josta sinun on päästävä ulos, jotta peli loppuu. \nVoit katsoa ympärillesi, ottaa esineitä käteesi ja tehdä niillä asioita. Loput sinun on selvitettävä itse. Onnea peliin!");
-        System.out.println("\nMitä teet?");
+        System.out.println("Hei seikkailija " + nimi + "! Aloitetaan seikkailu! Heräät pimeästä huoneesta, josta sinun on päästävä ulos, jotta peli loppuu. \nVoit katsoa ympärillesi ja käyttää löytämisiä esineitä. Loput sinun on selvitettävä itse. Onnea peliin!");
+        System.out.println("\nKäske seikkailijaa tekemään jotain.");
     }
 
     public void tulostaLopetus() {
@@ -68,7 +68,7 @@ public class Seikkailupeli {
         patja.asetaMuodot("patjalla", "patjaa");
         huone.lisaaEsine(patja);
         patja.setOikeaKayttoKomento("nosta");
-        patja.setOikeaKayttoTeksti("Nostat patjaa ja sen alta paljastuu vasara");
+        patja.setOikeaKayttoTeksti("Nostat patjaa ja sen alta paljastuu vasara. Otat vasaran mukaasi.");
 
         //Luodaan pöydän ominaisuudet ja lisätään se huoneeseen
         poyta.asetaKatsoKuvaus("Huoneen ainoa huonekalu on puinen antiikkipöytä. Pöydällä on rasia.");
@@ -76,7 +76,7 @@ public class Seikkailupeli {
         huone.lisaaEsine(poyta);
         poyta.setOikeaKayttoEsine(vasara);
         poyta.setOikeaKayttoKomento("lyö");
-        poyta.setOikeaKayttoTeksti("Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle");
+        poyta.setOikeaKayttoTeksti("Lyöt pöytää vasaralla ja sen pohjaan teipattu avain tipahtaa lattialle. Kyykistyt lattialle ja noukit avaimen käteesi.");
 
         //Luodaan oven ominaisuudet ja lisätään se huoneeseen
         ovi.asetaMuodot("ovella", "ovea");
@@ -88,12 +88,12 @@ public class Seikkailupeli {
         ovi.lisaaSisalto(new Esine(""));
 
         //Luodaan rasian ominaisuudet ja lisätään se huoneeseen
-        rasia.asetaKatsoKuvaus("Kädessäsi on metallinen rasia, joka on lukittu. Heiluttaessa rasia kolisee...");
+        rasia.asetaKatsoKuvaus("Kädessäsi on metallinen rasia, joka on lukittu. Heiluttaessa rasia kolisee... Onkohan sisällä jotain?");
         rasia.asetaMuodot("rasialla", "rasiaa");
         huone.lisaaEsine(rasia);
         rasia.setOikeaKayttoEsine(avain);
         rasia.setOikeaKayttoKomento("avaa");
-        rasia.setOikeaKayttoTeksti("Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka?");
+        rasia.setOikeaKayttoTeksti("Avain sopii rasiaan! Avaat rasian ja löydät sen sisältä erikoisen näköisen esineen. Voisikohan tämä olla tiirikka? Nappaat tiirikan mukaasi.");
         //Lisätään esineissä olevat toiset esineet
         vasara.asetaMuodot("vasaralla", "vasaraa");
         vasara.asetaKatsoKuvaus("Vasara on vanha ja siinä on hieman ruostetta. Puinen varsi tuntuu kuitenkin tarpeeksi vahvalta, jotta vasaraa voi käyttää.");
@@ -138,7 +138,7 @@ public class Seikkailupeli {
         }
 
         if (!komennot.contains(komento[0])) {
-            System.out.println("\'" + komento[0] + "\' ei ole validi komento. Komennot:");
+            System.out.println("\'" + komento[0] + "\' ei ole validi komento. Käytettävissäsi olevat komennot:");
             for (String s : komennot) {
                 System.out.print(s + " ");
             }
@@ -169,9 +169,6 @@ public class Seikkailupeli {
         }
 
 
-
-
-
         /* parsitaan komennosta toiminta. Komento on 1-3 sanaa.
          * Ensimmäinen on käskysana, toinen on kohde-esine, kolmas apuesine
           * esim. "nosta patjaa kepillä" */
@@ -192,7 +189,7 @@ public class Seikkailupeli {
                 return;
             }
 
-            System.out.println("En ymmärrä komentoa");
+            System.out.println("En ymmärrä komentoa. Anna komento käskymuodossa.");
         }
 
         /* jos komennon pituus on 2, komento voi olla "katso" tai
@@ -212,21 +209,21 @@ public class Seikkailupeli {
                 Esine paluuarvo = valine.kayta(komento[0], null);
                 if (paluuarvo == null) {
                     System.out.println("DEBUG: return null");
-                    System.out.println("Et voi tehdä niin");
+                    System.out.println("Et voi tehdä niin. Kokeile tehdä jotakin muuta.");
                 } else {
                     System.out.println(valine.getOikeaKayttoTeksti());
                     pelaaja.lisaaEsine(paluuarvo);
                 }
             }
             return;
-        }
-
+        }/* Jos pelaaja kokeilee väärää apuobjektia kohdeobjektiin, tulee virheilmoitus. Muutoin esine lisätään
+            käyttäjän käytössä oleviin välineisiin*/
         if (komento.length == 3) {
             Esine valine = sovita(komento[1], esineet);
             Esine apuValine = sovita(komento[2], esineet);
             Esine paluuarvo = valine.kayta(komento[0], apuValine);
             if (paluuarvo == null) {
-                System.out.println("Et voi tehdä niin");
+                System.out.println("Et voi tehdä niin. Kokeile tehdä jotakin muuta.");
             } else {
                 System.out.println(valine.getOikeaKayttoTeksti());
                 pelaaja.lisaaEsine(paluuarvo);
@@ -245,7 +242,7 @@ public class Seikkailupeli {
         }
     }
 
-    public String[] jarjestaKomento (String[] kayttajanSanat) {
+    public String[] jarjestaKomento (String[] kayttajanSanat) { //järjestää käyttäjän antaman komennon sanat ohjelman luettavaksi
         String[] uusikomento = new String[3];
         for (String sana : kayttajanSanat) {
             if (komennot.contains(sana)) {
