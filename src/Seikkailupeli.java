@@ -235,6 +235,9 @@ public class Seikkailupeli {
         huone.lisaaEsine(ovi);
         huone.lisaaEsine(rasia);
 
+        // Lisätään käyttökuvauksia vääriin tapoihin käyttää asioita
+        ovi.asetaKayttoKuvaus("avaa", avain, "Avain ei sovi lukkoon");
+
         /***   LUODAAN TOISEN HUONEEN SISÄLTÖ   ***/
 
         // Huoneessa on taulu, ovi ja peili. Peilistä tulee sirpaleita ja sen takana on lappu.
@@ -275,13 +278,14 @@ public class Seikkailupeli {
                 "ehkä hieman ylpeä. Hänellä on yllään tumma puku ja punainen kravatti. Taulun kehys on\n" +
                 "koristeellisesti veistettyä puuta ja koko taulu on paljon paremmassa kunnossa kuin\n" +
                 "mikään mitä olet täällä aikaisemmin nänyt.");
-        taulu.setOikeaKaytto("lyö", sirpaleet, "Turhautuneena tilanteeseen\n" +
-                " päätät purkaa ahdistuksesi kuvan naiseen. Tartut peilinsirpaleeseen, jonka terävä reuna\n" +
-                "pureutuu kämmeneesi. Sirpaleen heijastava reuna saa veresi kimaltamaan uhkaavasti. Viillät\n" +
-                "taulua uudestaan ja uudestaan kunnes kuvan naisesta ei ole jäljellä kuin muisto. Yllätykseksesi\n" +
-                "kuvan takaa paljastuu seinässä oleva sisennys, johon on upotettu kassakaappi. Rauhoituttuasi\n" +
-                "hieman havaitset, että taulussa on toisessa reunassa saranat, joilla syvennykseen olisi\n" +
-                "päässyt käsiksi ilman väkivaltaa. Pyyhit verisen kätesi likaisten housujesi lahkeeseen.\n");
+        taulu.setOikeaKaytto("lyö", sirpaleet,
+                "Turhautuneena tilanteeseen päätät purkaa ahdistuksesi kuvan naiseen. Tartut \n" +
+                        "peilinsirpaleeseen, jonka terävä reuna pureutuu kämmeneesi. Sirpaleen heijastava reuna saa \n" +
+                        "veresi kimaltamaan uhkaavasti. Viillät taulua uudestaan ja uudestaan kunnes kuvan naisesta \n" +
+                        "ei ole jäljellä kuin muisto. Yllätykseksesi kuvan takaa paljastuu seinässä oleva sisennys, \n" +
+                        "johon on upotettu kassakaappi. Rauhoituttuasi hieman havaitset, että taulussa on toisessa \n" +
+                        "reunassa saranat, joilla syvennykseen olisi päässyt käsiksi ilman väkivaltaa. Pyyhit verisen \n" +
+                        "kätesi likaisten housujesi lahkeeseen.");
 
         // peilin takan on kassakaappi, jossa on sormi.
         PulmaEsine kassakaappi = new PulmaEsine("kassakaappi",

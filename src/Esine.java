@@ -24,7 +24,7 @@ public class Esine {
         kayttoTekstit = new HashMap<>();
     }
 
-    private void asetaKayttoKuvaus(String komento, Esine esine, String kayttoKuvaus) {
+    public void asetaKayttoKuvaus(String komento, Esine esine, String kayttoKuvaus) {
         if (!kayttoTekstit.containsKey(komento)) {
             kayttoTekstit.put(komento, new HashMap<>());
         }
