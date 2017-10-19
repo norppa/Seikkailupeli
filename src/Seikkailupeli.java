@@ -47,6 +47,7 @@ public class Seikkailupeli {
         komennot.add("avaa");
         komennot.add("lyö");
         komennot.add("nosta");
+        komennot.add("inventaario");
 
         //Luodaan huone, sen kuvaus ja huoneen sisältö.
         huone = new Huone();
@@ -200,6 +201,10 @@ public class Seikkailupeli {
                 System.out.println(pelaaja.getHuone().getKuvaus());
                 return;
             }
+            if (komento[0].equals("inventaario")) { //pelaaja voi selvittää käytössään olevat esineet tällä komennolla
+                pelaaja.Inventaario();
+                return;
+            }
 
             System.out.println("En ymmärrä komentoa. Anna komento käskymuodossa.");
         }
@@ -223,7 +228,7 @@ public class Seikkailupeli {
                     System.out.println("DEBUG: return null");
                     System.out.println("Et voi tehdä niin. Kokeile tehdä jotakin muuta.");
                 } else {
-                    System.out.println(valine.getViimeisinKayttoTeksti() + "\n" + paluuarvo);
+                    System.out.println(valine.getViimeisinKayttoTeksti());
                     pelaaja.lisaaEsine(paluuarvo);
                 }
             }
@@ -267,4 +272,5 @@ public class Seikkailupeli {
         }
         return uusikomento;
     }
+
 }
