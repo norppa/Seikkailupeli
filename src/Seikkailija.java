@@ -26,9 +26,9 @@ public class Seikkailija {
 
     public void lisaaEsine(Esine esine) {
         inventaario.add(esine);
-        System.out.println("DEBUG: inventaario: ");
-        for (Esine e : inventaario) System.out.print(e + " ");
-        System.out.println();
+        //System.out.println("DEBUG: inventaario: ");
+        //for (Esine e : inventaario) System.out.print(e + " ");
+        //System.out.println();
 
     }
 }
