@@ -48,6 +48,7 @@ public class Seikkailupeli {
         komennot.add("lyö");
         komennot.add("nosta");
         komennot.add("inventaario");
+        komennot.add("luovuta");
 
         //Luodaan huone, sen kuvaus ja huoneen sisältö.
         huone = new Huone();
@@ -120,6 +121,14 @@ public class Seikkailupeli {
         poyta.lisaaSisalto(avain);
         //Lisätään rasian sisältö
         rasia.lisaaSisalto(tiirikka);
+
+        /***   TOINEN HUONE   ***/
+        Huone huone2 = new Huone();
+        String huoneenKaksiKuvaus = "Tämän huoneen seinät ovat punaista tiiltä";
+
+        // Huoneessa on taulu, ovi ja peili. Peilistä tulee sirpaleita.
+        Esine sirpaleet = new Esine("sirpaleet");
+//        MuuttuvaEsine peili = new MuuttuvaEsine("peili", huone2, );
 
 
     }
