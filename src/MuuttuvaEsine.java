@@ -6,7 +6,8 @@ public class MuuttuvaEsine extends Esine {
     private Huone huone;
     private String uusiHuoneenKuvaus;
 
-    public MuuttuvaEsine(Huone huone, Esine uusiEsine, String uusiHuoneenKuvaus) {
+    public MuuttuvaEsine(String nimi, Huone huone, Esine uusiEsine, String uusiHuoneenKuvaus) {
+        super(nimi);
         this.uusiEsine = uusiEsine;
         this.huone = huone;
         this.uusiHuoneenKuvaus = uusiHuoneenKuvaus;
