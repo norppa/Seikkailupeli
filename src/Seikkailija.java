@@ -25,6 +25,7 @@ public class Seikkailija {
     }
 
     public void lisaaEsine(Esine esine) {
+        if (esine == null || esine.equals(new Esine())) return;
         inventaario.add(esine);
         //System.out.println("DEBUG: inventaario: ");
         //for (Esine e : inventaario) System.out.print(e + " ");

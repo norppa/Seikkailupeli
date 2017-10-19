@@ -129,7 +129,8 @@ public class Seikkailupeli {
     }
 
     public void tulostaLopetus() {
-        System.out.println("Ovi aukeaa ja raitis ulkoilma virtaa kasvoillesi. Onnen kyyneleet valuvat poskiasi pitkin, kun tajuat, että kurjan elämäsi viimeiset hetket eivät olleet tunkkaisessa pakohuoneessa.");
+        System.out.println("Ovi aukeaa ja raitis ulkoilma virtaa kasvoillesi. Onnen kyyneleet valuvat poskiasi pitkin, kun tajuat,\n" +
+                "että kurjan elämäsi viimeiset hetket eivät olleet tunkkaisessa pakohuoneessa.");
     }
 
     public void alustaSeikkailu() {
@@ -295,8 +296,8 @@ public class Seikkailupeli {
                 "numerokoodilla toimiva kassakaappi.");
         Esine sormi = new Esine("sormi");
         sormi.asetaMuodot("sormella", "sormea");
-        sormi.asetaKatsoKuvaus("Ihmise etusormi. Leikattu irti kolmannen nivelen kohdalla ja tähän " +
-                "amputaatioon ei ole kirurgia käytetty. Luu törröttää tyngän päästä ja sormesta valuva veri " +
+        sormi.asetaKatsoKuvaus("Ihmisen etusormi. Leikattu irti kolmannen nivelen kohdalla ja tähän " +
+                "amputaatioon ei ole kirurgia käytetty. \nLuu törröttää tyngän päästä ja sormesta valuva veri " +
                 "on vielä juoksevaa.");
         kassakaappi.lisaaSisalto(sormi);
         kassakaappi.setOikeaKaytto("avaa", nul, "");
@@ -317,7 +318,7 @@ public class Seikkailupeli {
 
     private Esine sovita(String esineString, List<Esine> esineLista) {
         for (Esine e : esineLista) {
-            System.out.println("DEBUG: " + e);
+//            System.out.println("DEBUG: " + e);
             if (e.getMuodot().contains(esineString)) {
                 return e;
             }
@@ -328,12 +329,22 @@ public class Seikkailupeli {
     public void lueKomento() {
 
         /* Esineet, joihin pelaaja voi vaikuttaa */
-        List<Esine> esineet = pelaaja.getHuone().getEsineet();
+        List<Esine> esineet = new ArrayList<>();
+        esineet.addAll(pelaaja.getHuone().getEsineet());
         esineet.addAll(pelaaja.getEsineet());
-
         // Otetaan käyttäjältä komento ja muutetaan se pieniksi kirjaimiksi
         String rivi = scanner.nextLine();
         rivi = rivi.toLowerCase();
+
+        //debug
+        if (rivi.equals("debug")) {
+            System.out.println("Huoneen esineet");
+            for (Esine e : pelaaja.getHuone().getEsineet()) {
+                System.out.println(e);
+            }
+            System.out.println("-");
+            return;
+        }
         String[] komento = rivi.split("\\s+");
 
 

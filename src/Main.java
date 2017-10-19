@@ -10,6 +10,7 @@ public class Main {
         peli.tulostaTervetuloa();
         while (peli.jatkuuko()) {
             peli.lueKomento();
+
         }
         peli.tulostaLopetus();
 

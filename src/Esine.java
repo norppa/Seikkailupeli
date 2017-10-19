@@ -68,7 +68,11 @@ public class Esine {
 
     /* Lapset overridaa tämän ja luo lisätoiminnallisuutta */
     Esine toiminto() {
-        return sisalto;
+        if (sisalto==null) {
+            return new Esine();
+        } else {
+            return sisalto;
+        }
     }
 
     public void lisaaSisalto(Esine esine) {
