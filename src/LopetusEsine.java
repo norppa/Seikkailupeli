@@ -10,7 +10,8 @@ public class LopetusEsine extends Esine {
     }
 
     @Override
-    void toiminto() {
+    Esine toiminto() {
         peli.lopetaPeli();
+        return this.sisalto;
     }
 }
