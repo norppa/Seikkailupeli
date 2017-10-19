@@ -31,6 +31,18 @@ public class Seikkailija {
         //System.out.println();
 
     }
+    public void Inventaario() {
+
+        if (inventaario.isEmpty()) {
+            System.out.println("Et ole vielä löytänyt käytettäviä esineitä. Etsi tarkemmin.");
+        } else {
+            System.out.println("Sinulla on käytössäsi:  ");
+            for (Esine e : inventaario) System.out.print(e + " ");
+            System.out.println();
+        }
+
+
+    }
 }
 
 
