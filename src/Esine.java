@@ -58,10 +58,14 @@ public class Esine {
     public Esine kayta(String komento, Esine esine) {
         asetaViimeisinKayttoTeksti(komento, esine);
         if (esine.equals(oikeaKayttoEsine) && komento.equals(oikeaKayttoKomento)) {
+            toiminto();
             return sisalto;
         }
         return new Esine();
     }
+
+    /* Lapset overridaa tämän ja luo lisätoiminnallisuutta */
+    void toiminto() {}
 
     public void lisaaSisalto(Esine esine) {
         sisalto = esine;
