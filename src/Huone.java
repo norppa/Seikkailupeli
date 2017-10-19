@@ -19,6 +19,7 @@ public class Huone {
     public void lisaaEsine(Esine esine) {
         esineet.add(esine);
     }
+    public void poistaEsine(Esine esine) {esineet.remove(esine); }
 
     public void asetaKuvaus(String kuvaus) {
         this.kuvaus = kuvaus;

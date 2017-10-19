@@ -57,6 +57,9 @@ public class Esine {
 
     public Esine kayta(String komento, Esine esine) {
         asetaViimeisinKayttoTeksti(komento, esine);
+        if (oikeaKayttoEsine==null || oikeaKayttoKomento==null) {
+            return new Esine();
+        }
         if (esine.equals(oikeaKayttoEsine) && komento.equals(oikeaKayttoKomento)) {
             return toiminto();
         }
