@@ -6,7 +6,7 @@ public class Esine {
     protected List<String> muodot;
     protected String oikeaKayttoKomento;
     protected Esine oikeaKayttoEsine;
-    protected String oikeaKayttoTeksti;
+//    protected String oikeaKayttoTeksti;
     protected Map<String, Map<Esine, String>> kayttoTekstit;
     protected String viimeisinKayttoTeksti;
     protected String oletusKayttoTeksti = "Et voi käyttää tätä esinettä noin";
@@ -58,14 +58,15 @@ public class Esine {
     public Esine kayta(String komento, Esine esine) {
         asetaViimeisinKayttoTeksti(komento, esine);
         if (esine.equals(oikeaKayttoEsine) && komento.equals(oikeaKayttoKomento)) {
-            toiminto();
-            return sisalto;
+            return toiminto();
         }
         return new Esine();
     }
 
     /* Lapset overridaa tämän ja luo lisätoiminnallisuutta */
-    void toiminto() {}
+    Esine toiminto() {
+        return sisalto;
+    }
 
     public void lisaaSisalto(Esine esine) {
         sisalto = esine;
