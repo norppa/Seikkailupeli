@@ -47,7 +47,7 @@ public class Seikkailupeli {
                         "\njos ensimmäisen vaiheen läpipääsy turhauttaa.";
                 break;
             case "riina":
-                tervehdysteksti = "Hei Riina.";
+                tervehdysteksti = "Hei Riina. Sinä olet kyllä pelannut pelin jo niin monta kertaa läpi, että kannattaako enää? Anna jonkun muun yrittää.";
                 break;
             case "samu":
                 tervehdysteksti = "Hei Samu. Sinun ansiostasi tämä peli on edes olemassa, kun opetit meille GIT:in käyttöä." +
@@ -131,6 +131,37 @@ public class Seikkailupeli {
     public void tulostaLopetus() {
         System.out.println("Ovi aukeaa ja raitis ulkoilma virtaa kasvoillesi. Onnen kyyneleet valuvat poskiasi pitkin, kun tajuat,\n" +
                 "että kurjan elämäsi viimeiset hetket eivät olleet tunkkaisessa pakohuoneessa.");
+
+        System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMMmdmNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMh:----:+yNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMM/--------/NMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMd---------sMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMo--------oMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMN/------:sMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMMh-----:/hMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMMs----://hMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMM/-----:/yMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMM:-----:/yMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMN------:/omMMNNNNNmyssssydNMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMm--------:+mmmdhyso-------/mMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMd+----------/+mN+//:---------/NMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMNs------------:/oMh///--------:/NMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMN+-------------://mNo++/+oshddddydMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMo--------------///dMMNmhys+/:----:NMMMMMMMMM\n" +
+                "MMMMMMMMNNmmmmMh--------------:///mNo//:----------mMMMMMMMMM\n" +
+                "MMMMmo/:-----/m+--------------///sMh////--------:hMMMMMMMMMM\n" +
+                "MMMMh--------:/--------------///+NMs///:-:/+oyhddNMMMMMMMMMM\n" +
+                "MMMMh--------:/------------:///+mMNmmdddddhyo+:--dMMMMMMMMMM\n" +
+                "MMMMh---------/----------:////sNms////----------/NMMMMMMMMMM\n" +
+                "MMMMh----------------::///////mNo+//:----------oNMMMMMMMMMMM\n" +
+                "MMMMh---------------------////+dNmmdhyyso++/oymMMMMMMMMMMMMM\n" +
+                "MMMMh----------------------////Nh///:/+oosymMMMMMMMMMMMMMMMM\n" +
+                "MMMMd:-----------:hd+-------///yNs+/:::://+mMMMMMMMMMMMMMMMM\n" +
+                "MMMMd///::--:::////yNmyo+/:::///ohmmdhhyhdNMMMMMMMMMMMMMMMMM\n" +
+                "MMMMd////++oosyhdmNMMMMMMMMMMNNNNMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+                "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
     }
 
     public void alustaSeikkailu() {
@@ -237,38 +268,44 @@ public class Seikkailupeli {
 
         // Lisätään käyttökuvauksia vääriin tapoihin käyttää asioita
         ovi.asetaKayttoKuvaus("avaa", avain, "Avain ei sovi lukkoon");
+        ovi.asetaKayttoKuvaus("lyö", vasara, "Mitään ei tapahdu.");
+        ovi.asetaKayttoKuvaus("nosta", poyta, "Pöytä on liian painava, et jaksa nostaa sitä.");
+        ovi.asetaKayttoKuvaus("paina", tiirikka, "Kokeile tehdä jotain muuta, kuin painaa");
+        ovi.asetaKayttoKuvaus("lyö", tiirikka, "Lopeta! Tiirikkasi menee pian rikki.");
+        patja.asetaKayttoKuvaus("lyö", vasara, "Patjaan tulee reikä. Mene purkamaan aggressioitasi muualle.");
+        poyta.asetaKayttoKuvaus("avaa", avain, "Yrität avata pöydän avaimella, mutta et löydä avaimenreikää.");
+        rasia.asetaKayttoKuvaus("lyö", vasara, "Rasia kestää iskusi. Kokeile jotakin muuta.");
+        rasia.asetaKayttoKuvaus("avaa", tiirikka, "Rasia on jo auki, älä turhaan yritä uudelleen avata sitä!");
 
         /***   LUODAAN TOISEN HUONEEN SISÄLTÖ   ***/
 
-        // Huoneessa on taulu, ovi ja peili. Peilistä tulee sirpaleita ja sen takana on lappu.
+        // Luodaan esineet
+
         Esine lappu = new Esine("lappu");
+        lappu.asetaKatsoKuvaus("Paperi on vanha ja kellastunut. Lappuun on kirjoitettu\nmustekynällä numerosarja 39 27 15");
         lappu.asetaMuodot("lapulla", "lappua");
+
+
         Esine sirpaleet = new Esine("sirpaleet");
+        sirpaleet.asetaMuodot("sirpaleilla", "sirpaleita");
+        sirpaleet.asetaMuodot("sirpaleella", "sirpaletta");
+        sirpaleet.asetaKatsoKuvaus("Peilin sirpaleet heijastavat huoneen lepattavaa valoa luoden kylmältä\n" +
+                "tuntuvan kimalluksen. Erityisesti sirpaleiden terävät reunat kimaltava uhkaavasti.\n" +
+                " Suurin osa sirpaleista on pieniä, mutta joukossa on muutama suurempikin kappale.\n");
+
+
         String huoneenKaksiUusiKuvaus = "Huoneen punatiiliset seinät, lattia ja katto luovat edelleen \n" +
                 "painostavan tunnelman, mutta lattialla olevat peilinsirpaleet piristävät tunnelmaa.\n" +
                 "Vanha kansa sanoo, että sirpaleet tuovat onnea. Mieleesi juolahtaa, että jos et\n" +
                 "muuta keksi, sirpaleilla voi ainakin päättää tämän surkean seikkailun yhdellä\n" +
                 "lopullisella tavalla...";
-        sirpaleet.asetaMuodot("sirpaleilla", "sirpaleita");
-        sirpaleet.asetaMuodot("sirpaleella", "sirpaletta");
         MuuttuvaEsine peili = new MuuttuvaEsine("peili", huone2, sirpaleet, huoneenKaksiUusiKuvaus);
-        peili.lisaaSisalto(lappu);
+        peili.asetaMuodot("peilillä", "peiliä");
         peili.asetaKatsoKuvaus("Tämä peili on ihmisen mittainen. Näet siitä itsesi kiirestä kantapäähän.\n" +
                 "Peilissä on yksinkertainen puuraami, joka on nähnyt parhaat päivänsä aikaa sitten.\n" +
                 "Peilin pinta on likainen ja näet siinä sormen- ja kädenjälkiä. Takanasi oleva maalaus näyttää\n" +
                 "tuijottavan sinua peilin kautta.");
-        peili.asetaMuodot("peilillä", "peiliä");
-        peili.setOikeaKaytto("lyö", vasara, "Huitaiset vasaralla peiliä, joka\n" +
-                "hajoaa tuhansiksi sirpaleiksi. Ääni on hiljaisessa huoneessa korvia huumaava. Voisit vaikka\n" +
-                "vannoa, että juuri ennen vasaran osumista peiliin, taustalla näkyvä maalaus näytti kauhistuneelta.\n" +
-                "Kun melu on laantunut ja sirpaleet lojuvat lattialla, havaitset sirpaleiden joukossa paperilapun.\n");
 
-        sirpaleet.asetaKatsoKuvaus("Peilin sirpaleet heijastavat huoneen lepattavaa valoa luoden kylmältä\n" +
-                "tuntuvan kimalluksen. Erityisesti sirpaleiden terävät reunat kimaltava uhkaavasti.\n" +
-                " Suurin osa sirpaleista on pieniä, mutta joukossa on muutama suurempikin kappale.\n");
-
-        lappu.asetaKatsoKuvaus("Paperi on vanha ja kellastunut. Lappuun on kirjoitettu\n" +
-                "mustekynällä numerosarja 39 27 15");
 
         Esine taulu = new Esine("taulu");
         taulu.asetaMuodot("taululla", "taulua");
@@ -278,16 +315,7 @@ public class Seikkailupeli {
                 "ehkä hieman ylpeä. Hänellä on yllään tumma puku ja punainen kravatti. Taulun kehys on\n" +
                 "koristeellisesti veistettyä puuta ja koko taulu on paljon paremmassa kunnossa kuin\n" +
                 "mikään mitä olet täällä aikaisemmin nänyt.");
-        taulu.setOikeaKaytto("lyö", sirpaleet,
-                "Turhautuneena tilanteeseen päätät purkaa ahdistuksesi kuvan naiseen. Tartut \n" +
-                        "peilinsirpaleeseen, jonka terävä reuna pureutuu kämmeneesi. Sirpaleen heijastava reuna saa \n" +
-                        "veresi kimaltamaan uhkaavasti. Viillät taulua uudestaan ja uudestaan kunnes kuvan naisesta \n" +
-                        "ei ole jäljellä kuin muisto. Yllätykseksesi kuvan takaa paljastuu seinässä oleva sisennys, \n" +
-                        "johon on upotettu kassakaappi. Rauhoituttuasi hieman havaitset, että taulussa on toisessa \n" +
-                        "reunassa saranat, joilla syvennykseen olisi päässyt käsiksi ilman väkivaltaa. Pyyhit verisen \n" +
-                        "kätesi likaisten housujesi lahkeeseen.");
 
-        // peilin takan on kassakaappi, jossa on sormi.
         PulmaEsine kassakaappi = new PulmaEsine("kassakaappi",
                 "Kassakaappi vaatii tunnusluvun. Minkä tunnusluvun annat?",
                 "39 27 15",
@@ -298,25 +326,60 @@ public class Seikkailupeli {
         kassakaappi.asetaKatsoKuvaus("Kassakaappi on jykevä ja lukittu. Siinä on naarmuja ja lommoja, joten \n" +
                 "näyttää siltä että sitä on ennenkin yritetty turhaan avata väkivalloin. Tämä näyttää olevan\n" +
                 "numerokoodilla toimiva kassakaappi.");
+
         Esine sormi = new Esine("sormi");
         sormi.asetaMuodot("sormella", "sormea");
         sormi.asetaKatsoKuvaus("Ihmisen etusormi. Leikattu irti kolmannen nivelen kohdalla ja tähän " +
                 "amputaatioon ei ole kirurgia käytetty. \nLuu törröttää tyngän päästä ja sormesta valuva veri " +
                 "on vielä juoksevaa.");
-        kassakaappi.lisaaSisalto(sormi);
-        kassakaappi.setOikeaKaytto("avaa", nul, "");
 
         LopetusEsine sormenjälkitunnistin = new LopetusEsine("sormenjälkitunnistin", this);
         sormenjälkitunnistin.asetaMuodot("sormenjälkitunnistimella", "sormenjälkitunnistinta");
         sormenjälkitunnistin.asetaKatsoKuvaus("Tunnistimessa on lasinen levy, jossa on sormenjäljen kuva.");
+
+        // Asetetaan oikat käyttötavat
+
+        peili.setOikeaKaytto("lyö", vasara, "Huitaiset vasaralla peiliä, joka\n" +
+                "hajoaa tuhansiksi sirpaleiksi. Ääni on hiljaisessa huoneessa korvia huumaava. Voisit vaikka\n" +
+                "vannoa, että juuri ennen vasaran osumista peiliin, taustalla näkyvä maalaus näytti kauhistuneelta.\n" +
+                "Kun melu on laantunut ja sirpaleet lojuvat lattialla, havaitset sirpaleiden joukossa paperilapun.\n");
+
+        taulu.setOikeaKaytto("lyö", sirpaleet,
+                "Turhautuneena tilanteeseen päätät purkaa ahdistuksesi kuvan naiseen. Tartut \n" +
+                        "peilinsirpaleeseen, jonka terävä reuna pureutuu kämmeneesi. Sirpaleen heijastava reuna saa \n" +
+                        "veresi kimaltamaan uhkaavasti. Viillät taulua uudestaan ja uudestaan kunnes kuvan naisesta \n" +
+                        "ei ole jäljellä kuin muisto. Yllätykseksesi kuvan takaa paljastuu seinässä oleva sisennys, \n" +
+                        "johon on upotettu kassakaappi. Rauhoituttuasi hieman havaitset, että taulussa on toisessa \n" +
+                        "reunassa saranat, joilla syvennykseen olisi päässyt käsiksi ilman väkivaltaa. Pyyhit verisen \n" +
+                        "kätesi likaisten housujesi lahkeeseen.");
+
+
+        kassakaappi.setOikeaKaytto("avaa", nul, "");
+
         sormenjälkitunnistin.setOikeaKaytto("paina",sormi, "Sormenjälkitunnistin" +
                 "väläyttää sinisen valon verisen sormen alapuolella. Hetken päästä oven lukosta kuuluu " +
                 "naksahdus.");
+
+        // Lisätään esineet toistensa sisään
+
+        kassakaappi.lisaaSisalto(sormi);
+        peili.lisaaSisalto(lappu);
+
+        // Lisätään esineet huoneeseen
 
         huone2.lisaaEsine(peili);
         huone2.lisaaEsine(taulu);
         huone2.lisaaEsine(kassakaappi);
         huone2.lisaaEsine(sormenjälkitunnistin);
+
+        // Asetetaan käyttökuvauksia
+        taulu.asetaKayttoKuvaus("lyö", vasara, "Taululle ei tapahdu mitään, vaikka hakkaat sitä vasaralla");
+        sormenjälkitunnistin.asetaKayttoKuvaus("lyö", vasara, "Miksi hakkaat sormenjälkitunnistinta vasaralla? Ei auta...");
+        sormenjälkitunnistin.asetaKayttoKuvaus("lyö", sirpaleet, "Sirpaleet aiheuttavat syviä verta vuotavia haavoja käsiisi, mutta sormenjälkitunnistin ei mene rikki eikä ovi aukea...");
+        sormenjälkitunnistin.asetaKayttoKuvaus("avaa", tiirikka, "Tiirikka ei toimi tähän tarkoitukseen, mitäköhän sormenjälkitunnisimeen kannattaisia laittaa...?");
+        kassakaappi.asetaKayttoKuvaus("lyö", vasara, "Kassakaappi ei hievahdakaan vaikka lyöt sitä vasaralla");
+        kassakaappi.asetaKayttoKuvaus("avaa", tiirikka, "Kassakaappi vaatii numerokoodin, typerys...");
+        kassakaappi.asetaKayttoKuvaus("avaa", avain, "Kassakaappi vaatii numerokoodin, typerys...");
 
     }
 

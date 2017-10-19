@@ -25,12 +25,13 @@ public class Seikkailija {
     }
 
     public void lisaaEsine(Esine esine) {
+        if (inventaario.contains(esine)) {
+            System.out.println("Sait Deja vu -kokemuksen, ja luulet saavasi uudelleen äsken löytämäsi esineen, mutta ethän sinä voi uudelleen löytää \n" +
+                    "samaa esinettä. Oletkohan tulossa pikkuhiljaa hulluksi..?");
+            return;
+        }
         if (esine == null || esine.equals(new Esine())) return;
         inventaario.add(esine);
-        //System.out.println("DEBUG: inventaario: ");
-        //for (Esine e : inventaario) System.out.print(e + " ");
-        //System.out.println();
-
     }
     public void Inventaario() {
 
