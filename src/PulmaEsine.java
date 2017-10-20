@@ -1,7 +1,14 @@
 import java.util.Scanner;
 
 /**
- * Created by Administrator on 19/10/2017.
+ * PulmaEsine kysyy pelaajalta kysymyksen ja luovuttaa
+ * sisältönsä vasta kun kysymykseen vastataan oikein.
+ *
+ * String pulmaTeksti on kysymyksenasetteluteksti
+ * String pulmaRatkaisu on oikea vastaus, joka käyttäjän tulee antaa
+ * String ratkaistuTeksti tulostetaan käyttäjälle kun oikea vastaus on annettu
+ * String eiRatkaistuTeksti tulostetaan käyttäjälle jos annettu vastaus on väärä
+ *
  */
 public class PulmaEsine extends Esine {
     private String pulmaTeksti;
@@ -24,10 +31,10 @@ public class PulmaEsine extends Esine {
         System.out.println(pulmaTeksti);
         String vastaus = scanner.nextLine();
         if (vastaus.equals(pulmaRatkaisu)) {
-            System.out.println(ratkaistuTeksti);
+            System.out.print(ratkaistuTeksti);
             return this.sisalto;
         } else {
-            System.out.println(eiRatkaistuTeksti);
+            System.out.print(eiRatkaistuTeksti);
             return new Esine();
         }
     }

@@ -319,8 +319,8 @@ public class Seikkailupeli {
         PulmaEsine kassakaappi = new PulmaEsine("kassakaappi",
                 "Kassakaappi vaatii tunnusluvun. Minkä tunnusluvun annat?",
                 "39 27 15",
-                "Tunnusluku on oikea. Kaappi avautuu narahtaen ja sisältä löytyy verinen sormi." +
-                        "Otat sormen mukaasi",
+                "Tunnusluku on oikea. Kaappi avautuu narahtaen ja sisältä löytyy verinen sormi. " +
+                        "Otat sormen mukaasi.",
                 "Tunnusluku on väärä. Kaappi ei avaudu.", scanner);
         kassakaappi.asetaMuodot("kassakaapilla", "kassakaappia");
         kassakaappi.asetaKatsoKuvaus("Kassakaappi on jykevä ja lukittu. Siinä on naarmuja ja lommoja, joten \n" +
@@ -335,6 +335,9 @@ public class Seikkailupeli {
 
         LopetusEsine sormenjälkitunnistin = new LopetusEsine("sormenjälkitunnistin", this);
         sormenjälkitunnistin.asetaMuodot("sormenjälkitunnistimella", "sormenjälkitunnistinta");
+        sormenjälkitunnistin.asetaMuodot("tunnistin", "tunnistimeen");
+        sormenjälkitunnistin.asetaMuodot("tunnistimelle", "tunnistinta");
+        sormenjälkitunnistin.asetaMuodot("tunnistimella", "tunnistinta");
         sormenjälkitunnistin.asetaKatsoKuvaus("Tunnistimessa on lasinen levy, jossa on sormenjäljen kuva.");
 
         // Asetetaan oikat käyttötavat

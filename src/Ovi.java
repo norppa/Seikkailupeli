@@ -1,5 +1,9 @@
 /**
- * Created by Administrator on 19/10/2017.
+ * Ovi on poikkeuksellinen esine. Se siirtää pelaajan nykyisestä huoneesta
+ * uuteen huoneeseen.
+ *
+ * Huone seuraavaHuone on huone, johon seikkalija siirretään
+ * Seikkailija seikkailija on siirrettävä seikkailija
  */
 public class Ovi extends Esine {
     private Huone seuraavaHuone;

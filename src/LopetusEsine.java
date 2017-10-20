@@ -1,5 +1,8 @@
 /**
- * Created by Administrator on 18/10/2017.
+ * Kun luokan LopetusEsine ilmentymää käytetään oikealla tavalla,
+ * peli päättyy.
+ *
+ * Seikkailupeli peli on peli, joka päätetään
  */
 public class LopetusEsine extends Esine {
     Seikkailupeli peli;

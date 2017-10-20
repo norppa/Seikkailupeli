@@ -4,7 +4,6 @@
 public class Main {
     public static void main(String[] args) {
 
-        String nimi;    // käyttäjän antama nimi?
         Seikkailupeli peli = new Seikkailupeli();
 
         peli.tulostaTervetuloa();

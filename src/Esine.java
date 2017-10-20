@@ -1,4 +1,25 @@
 import java.util.*;
+
+/**
+ * Esine on Seikkailupelin peruspalikka. Kaikki pelissä olevat asiat ovat Esineitä.
+ * Esineellä voi olla sisältö.
+ * Esinettä voi käyttää metodilla kayta(String, Esine). Esineellä on yksi oikea
+ * käyttötapa, joka on komennon ja esineen yhdistelmä. Kun metodia kayta() kutsutaan
+ * oikealla yhdistelmällä, Esine palauttaa sisältönsä ja kutsuu metodia toiminto().
+ *
+ * String kuvaus on esineen kuvaus joka tulostetaan pelaajalle esinettä katsottaessa
+ * Esine sisalto on esineen sisältö, joka palautetaan kun esinettä käytetään
+ * List muodot lista sanamuodoista, joissa esine esiintyy pelissä. Ensimmäinen muoto
+ *      on aina perusmuoto, jota seuraavat muut käytettävät sanamuodot
+ * String oikeaKayttoKomento ja Esine oikeaKayttoEsine muodostavat parin, joka
+ *      määritttää oikean tavan käyttää esinettä.
+ * Map kayttoTekstit on kaksiulotteinen lista teksteistä, jotka näytetään käyttäjälle
+ *      kun esinettä yritetään käyttää tietyllä komento/esine-yhdistelmällä.
+ * String viimeisinKayttoTeksti muuttujaan tallennetaan viimeisin käyttöteksti aina
+ *      kun esinettä yritetään käyttää.
+ * String oletusKäyttöTeksti näytetään käyttäjälle, mikäli esinettä yritetään käyttää
+ *      komento/esine-kombinaatiolla, jota ei ole kayttoTekstit-mapissa.
+ */
 public class Esine {
     protected String kuvaus;
     protected Esine sisalto;

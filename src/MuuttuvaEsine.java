@@ -1,5 +1,10 @@
 /**
- * Created by Administrator on 19/10/2017.
+ *Muuttuva esine poistaa itsensä huoneen inventaariosta ja
+ *lisää sinne uuden esineen eli "muuttuu" toiseksi esineeksi.
+ *
+ * Esine uusiEsine esine, jolla nykyinen korvataan
+ * Huone huone huone, jonka inventaariota käsitellään
+ * String uusiHuoneenKuvaus uudistettu kuvaus huoneesta
  */
 public class MuuttuvaEsine extends Esine {
     private Esine uusiEsine;
